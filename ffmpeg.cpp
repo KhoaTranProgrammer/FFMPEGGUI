@@ -220,13 +220,10 @@ unsigned FFMpeg::get_codecs_sorted(const AVCodecDescriptor ***rcodecs)
     while ((desc = avcodec_descriptor_next(desc)))
         nb_codecs++;
     if (!(codecs = (const AVCodecDescriptor **)av_calloc(nb_codecs, sizeof(*codecs)))) {
-//        av_log(NULL, AV_LOG_ERROR, "Out of memory\n");
-//        exit_program(1);
     }
     desc = NULL;
     while ((desc = avcodec_descriptor_next(desc)))
         codecs[i++] = desc;
-//    av_assert0(i == nb_codecs);
     qsort(codecs, nb_codecs, sizeof(*codecs), compare_codec_desc);
     *rcodecs = codecs;
     return nb_codecs;
@@ -245,8 +242,6 @@ AVCodec* FFMpeg::next_codec_for_id(enum AVCodecID id, AVCodec *prev, int encoder
 void FFMpeg::get_decodecs_list()
 {
     unsigned i;
-//    const AVCodecDescriptor **codecs;
-//    nb_codecs = get_codecs_sorted(&codecs);
     for (i = 0; i < m_nbCodecs; i++) {
         const AVCodecDescriptor *desc = m_listOfCodecs[i];
         AVCodec *codec = NULL;
@@ -255,14 +250,11 @@ void FFMpeg::get_decodecs_list()
             m_listOfDecoders.append(codec);
         }
     }
-//    av_free(codecs);
 }
 
 void FFMpeg::get_encodecs_list()
 {
     unsigned i;
-//    const AVCodecDescriptor **codecs;
-//    nb_codecs = get_codecs_sorted(&codecs);
     for (i = 0; i < m_nbCodecs; i++) {
         const AVCodecDescriptor *desc = m_listOfCodecs[i];
         AVCodec *codec = NULL;
@@ -271,5 +263,4 @@ void FFMpeg::get_encodecs_list()
             m_listOfEncoders.append(codec);
         }
     }
-//    av_free(codecs);
 }

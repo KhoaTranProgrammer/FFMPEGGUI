@@ -16,6 +16,5 @@ int main(int argc, char *argv[])
     view.setMinimumSize(QSize(800, 480));
     view.show();
 
-//    FFMpeg::getInstance()->show_decoders();
     return app.exec();
 }
