@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Options.qml</file>
+        <file>Display/DisplayDecoders.qml</file>
+        <file>CodecTemplate.qml</file>
+        <file>Display/DisplayEncoders.qml</file>
+        <file>ScrollBar.qml</file>
+        <file>images/scrollbar.png</file>
+        <file>CustomText.qml</file>
+        <file>Display/DisplayCodecs.qml</file>
+    </qresource>
+</RCC>
