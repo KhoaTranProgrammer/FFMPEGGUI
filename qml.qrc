@@ -2,12 +2,22 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>Options.qml</file>
-        <file>Display/DisplayDecoders.qml</file>
         <file>CodecTemplate.qml</file>
-        <file>Display/DisplayEncoders.qml</file>
         <file>ScrollBar.qml</file>
         <file>images/scrollbar.png</file>
         <file>CustomText.qml</file>
-        <file>Display/DisplayCodecs.qml</file>
+        <file>js/OptionsData.js</file>
+        <file>images/ic_info_black_48dp.png</file>
+        <file>images/ic_info_white_48dp.png</file>
+        <file>images/ic_view_list_black_48dp.png</file>
+        <file>images/ic_view_list_white_48dp.png</file>
+        <file>capabilities/Capabilities.qml</file>
+        <file>capabilities/DisplayCodecs.qml</file>
+        <file>capabilities/DisplayDecoders.qml</file>
+        <file>capabilities/DisplayEncoders.qml</file>
+        <file>js/CapabilitiesData.js</file>
+        <file>FormatTemplate.qml</file>
+        <file>capabilities/DisplayDemuxers.qml</file>
+        <file>capabilities/DisplayMuxers.qml</file>
     </qresource>
 </RCC>

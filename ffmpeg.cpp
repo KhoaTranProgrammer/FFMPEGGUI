@@ -36,6 +36,7 @@ FFMpeg::FFMpeg()
 {
     //Init avcodec
     avcodec_register_all();
+    av_register_all();
 
     //Get codecs list
     m_nbCodecs = get_codecs_sorted(&m_listOfCodecs);
@@ -45,6 +46,10 @@ FFMpeg::FFMpeg()
 
     //Get encoders
     get_encodecs_list();
+
+    //Get formats
+    get_muxers_list();
+    get_demuxers_list();
 }
 
 int FFMpeg::getCodecsCount()
@@ -211,6 +216,36 @@ QString FFMpeg::getEncoderDr1(int i)
     return ".";
 }
 
+int FFMpeg::getDemuxersCount()
+{
+    return m_listOfDemuxers.length();
+}
+
+QString FFMpeg::getDemuxersNameAt(int i)
+{
+    return m_listOfDemuxers.at(i)->name;
+}
+
+QString FFMpeg::getDemuxersLongNameAt(int i)
+{
+    return m_listOfDemuxers.at(i)->long_name;
+}
+
+int FFMpeg::getMuxersCount()
+{
+    return m_listOfMuxers.length();
+}
+
+QString FFMpeg::getMuxersNameAt(int i)
+{
+    return m_listOfMuxers.at(i)->name;
+}
+
+QString FFMpeg::getMuxersLongNameAt(int i)
+{
+    return m_listOfMuxers.at(i)->long_name;
+}
+
 unsigned FFMpeg::get_codecs_sorted(const AVCodecDescriptor ***rcodecs)
 {
     const AVCodecDescriptor *desc = NULL;
@@ -263,4 +298,102 @@ void FFMpeg::get_encodecs_list()
             m_listOfEncoders.append(codec);
         }
     }
+}
+
+int is_device(const AVClass *avclass)
+{
+    if (!avclass)
+        return 0;
+    return AV_IS_INPUT_DEVICE(avclass->category) || AV_IS_OUTPUT_DEVICE(avclass->category);
+}
+
+void FFMpeg::get_muxers_list()
+{
+    int device_only = 0;
+    int muxdemuxers = SHOW_DEFAULT;
+    AVOutputFormat *ofmt = NULL;
+    const char *last_name;
+    int is_dev;
+
+    last_name = "000";
+    for (;;) {
+        int encode = 0;
+        const char *name      = NULL;
+        const char *long_name = NULL;
+
+        if (muxdemuxers !=SHOW_DEMUXERS) {
+            while ((ofmt = av_oformat_next(ofmt))) {
+                is_dev = is_device(ofmt->priv_class);
+                if (!is_dev && device_only)
+                    continue;
+                if ((!name || strcmp(ofmt->name, name) < 0) &&
+                    strcmp(ofmt->name, last_name) > 0) {
+                    name      = ofmt->name;
+                    long_name = ofmt->long_name;
+                    encode    = 1;
+                    add_muxerToList(ofmt);
+                }
+            }
+        }
+
+        if (!name)
+            break;
+        last_name = name;
+    }
+}
+
+void FFMpeg::get_demuxers_list()
+{
+    int device_only = 0;
+    int muxdemuxers = SHOW_DEFAULT;
+    AVInputFormat *ifmt  = NULL;
+    const char *last_name;
+    int is_dev;
+
+    last_name = "000";
+    for (;;) {
+        int decode = 0;
+        const char *name      = NULL;
+        const char *long_name = NULL;
+
+        if (muxdemuxers != SHOW_MUXERS) {
+            while ((ifmt = av_iformat_next(ifmt))) {
+                is_dev = is_device(ifmt->priv_class);
+                if (!is_dev && device_only)
+                    continue;
+                if ((!name || strcmp(ifmt->name, name) < 0) &&
+                    strcmp(ifmt->name, last_name) > 0) {
+                    name      = ifmt->name;
+                    long_name = ifmt->long_name;
+                }
+                if (name && strcmp(ifmt->name, name) == 0)
+                {
+                    decode = 1;
+                    add_demuxerToList(ifmt);
+                }
+            }
+        }
+
+        if (!name)
+            break;
+        last_name = name;
+    }
+}
+
+void FFMpeg::add_muxerToList(AVOutputFormat *ofmt)
+{
+    for(int i = 0; i < m_listOfMuxers.length(); i++)
+    {
+        if(m_listOfMuxers.at(i)->name == ofmt->name) return;
+    }
+    m_listOfMuxers.append(ofmt);
+}
+
+void FFMpeg::add_demuxerToList(AVInputFormat *ifmt)
+{
+    for(int i = 0; i < m_listOfDemuxers.length(); i++)
+    {
+        if(m_listOfDemuxers.at(i)->name == ifmt->name) return;
+    }
+    m_listOfDemuxers.append(ifmt);
 }
