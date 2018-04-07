@@ -38,6 +38,8 @@ FFMpeg::FFMpeg()
     avcodec_register_all();
     av_register_all();
 
+    getGeneralInfo();
+
     //Get codecs list
     m_nbCodecs = get_codecs_sorted(&m_listOfCodecs);
 
@@ -50,6 +52,21 @@ FFMpeg::FFMpeg()
     //Get formats
     get_muxers_list();
     get_demuxers_list();
+}
+
+QString FFMpeg::getProgramInfo()
+{
+    return m_programInfo;
+}
+
+QString FFMpeg::getCompilerInfo()
+{
+    return m_compilerInfo;
+}
+
+QString FFMpeg::getConfigurationInfo()
+{
+    return m_configurationInfo;
 }
 
 int FFMpeg::getCodecsCount()
@@ -244,6 +261,22 @@ QString FFMpeg::getMuxersNameAt(int i)
 QString FFMpeg::getMuxersLongNameAt(int i)
 {
     return m_listOfMuxers.at(i)->long_name;
+}
+
+void FFMpeg::getGeneralInfo()
+{
+    m_programInfo = "ffmpeg version ";
+    m_programInfo += FFMPEG_VERSION;
+    m_programInfo += " Copyright (c) ";
+    m_programInfo += "2000 - ";
+    m_programInfo += QString::number(CONFIG_THIS_YEAR);
+    m_programInfo += " the FFmpeg developers";
+
+    m_compilerInfo = "built with ";
+    m_compilerInfo += CC_IDENT;
+
+    m_configurationInfo = "configuration: ";
+    m_configurationInfo += FFMPEG_CONFIGURATION;
 }
 
 unsigned FFMpeg::get_codecs_sorted(const AVCodecDescriptor ***rcodecs)

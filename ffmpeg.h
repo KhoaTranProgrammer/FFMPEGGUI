@@ -11,6 +11,11 @@ extern "C" {
 #include "config.h"
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
+#include "libavutil/ffversion.h"
+#include "libavutil/version.h"
+
+const char program_name[] = "ffmpeg";
+const int program_birth_year = 2000;
 
 enum show_muxdemuxers {
     SHOW_DEFAULT,
@@ -32,6 +37,11 @@ public:
     explicit FFMpeg();
 
 public slots:
+    //For get general information
+    QString getProgramInfo();
+    QString getCompilerInfo();
+    QString getConfigurationInfo();
+
     //For access Codecs
     int getCodecsCount();
     QString getCodecsNameAt(int i);
@@ -76,6 +86,7 @@ public slots:
     QString getMuxersLongNameAt(int i);
 
 private slots:
+    void getGeneralInfo();
     unsigned get_codecs_sorted(const AVCodecDescriptor ***rcodecs);
     AVCodec *next_codec_for_id(enum AVCodecID id, AVCodec *prev, int encoder);
     void get_decodecs_list();
@@ -86,6 +97,11 @@ private slots:
     void add_demuxerToList(AVInputFormat *ifmt);
 
 private:
+    //General Information
+    QString m_programInfo;
+    QString m_compilerInfo;
+    QString m_configurationInfo;
+
     //List of Decoders
     QVector<AVCodec*> m_listOfDecoders;
 
@@ -99,6 +115,7 @@ private:
     //List of Formats
     QVector<AVInputFormat*> m_listOfDemuxers;
     QVector<AVOutputFormat*> m_listOfMuxers;
+
 };
 
 #endif // FFMPEG_H

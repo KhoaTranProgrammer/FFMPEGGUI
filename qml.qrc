@@ -19,5 +19,6 @@
         <file>FormatTemplate.qml</file>
         <file>capabilities/DisplayDemuxers.qml</file>
         <file>capabilities/DisplayMuxers.qml</file>
+        <file>Information.qml</file>
     </qresource>
 </RCC>
