@@ -9,13 +9,12 @@ extern "C" {
 #endif
 
 #include "config.h"
+#include "ffmpeg_c.h"
+#include "cmdutils.h"
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
 #include "libavutil/ffversion.h"
 #include "libavutil/version.h"
-
-const char program_name[] = "ffmpeg";
-const int program_birth_year = 2000;
 
 enum show_muxdemuxers {
     SHOW_DEFAULT,
@@ -23,8 +22,8 @@ enum show_muxdemuxers {
     SHOW_MUXERS,
 };
 
-int compare_codec_desc(const void *a, const void *b);
-static char get_media_type_char(enum AVMediaType type);
+//int compare_codec_desc(const void *a, const void *b);
+//static char get_media_type_char(enum AVMediaType type);
 #ifdef __cplusplus
 }
 #endif

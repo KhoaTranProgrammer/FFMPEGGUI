@@ -4,7 +4,12 @@ QT += qml quick
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    ffmpeg.cpp
+    ffmpeg.cpp \
+    ffmpeglib/src/cmdutils.c \
+    ffmpeglib/src/ffmpeg_c.c \
+    ffmpeglib/src/ffmpeg_filter.c \
+    ffmpeglib/src/ffmpeg_hw.c \
+    ffmpeglib/src/ffmpeg_opt.c
 
 RESOURCES += qml.qrc
 
@@ -21,4 +26,6 @@ INCLUDEPATH += $$PWD/ffmpeglib/include
 DEPENDPATH += $$PWD/ffmpeglib/include
 
 HEADERS += \
-    ffmpeg.h
+    ffmpeg.h \
+    ffmpeglib/include/cmdutils.h \
+    ffmpeglib/include/ffmpeg_c.h

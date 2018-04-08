@@ -2,26 +2,26 @@
 
 static FFMpeg *myFFMpeg = NULL;
 
-int compare_codec_desc(const void *a, const void *b)
-{
-    const AVCodecDescriptor * const *da = (const AVCodecDescriptor * const*)a;
-    const AVCodecDescriptor * const *db = (const AVCodecDescriptor * const*)b;
+//int compare_codec_desc(const void *a, const void *b)
+//{
+//    const AVCodecDescriptor * const *da = (const AVCodecDescriptor * const*)a;
+//    const AVCodecDescriptor * const *db = (const AVCodecDescriptor * const*)b;
 
-    return (*da)->type != (*db)->type ? FFDIFFSIGN((*da)->type, (*db)->type) :
-           strcmp((*da)->name, (*db)->name);
-}
+//    return (*da)->type != (*db)->type ? FFDIFFSIGN((*da)->type, (*db)->type) :
+//           strcmp((*da)->name, (*db)->name);
+//}
 
-static char get_media_type_char(enum AVMediaType type)
-{
-    switch (type) {
-        case AVMEDIA_TYPE_VIDEO:    return 'V';
-        case AVMEDIA_TYPE_AUDIO:    return 'A';
-        case AVMEDIA_TYPE_DATA:     return 'D';
-        case AVMEDIA_TYPE_SUBTITLE: return 'S';
-        case AVMEDIA_TYPE_ATTACHMENT:return 'T';
-        default:                    return '?';
-    }
-}
+//static char get_media_type_char(enum AVMediaType type)
+//{
+//    switch (type) {
+//        case AVMEDIA_TYPE_VIDEO:    return 'V';
+//        case AVMEDIA_TYPE_AUDIO:    return 'A';
+//        case AVMEDIA_TYPE_DATA:     return 'D';
+//        case AVMEDIA_TYPE_SUBTITLE: return 'S';
+//        case AVMEDIA_TYPE_ATTACHMENT:return 'T';
+//        default:                    return '?';
+//    }
+//}
 
 FFMpeg* FFMpeg::getInstance()
 {
