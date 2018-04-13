@@ -22,8 +22,6 @@ enum show_muxdemuxers {
     SHOW_MUXERS,
 };
 
-//int compare_codec_desc(const void *a, const void *b);
-//static char get_media_type_char(enum AVMediaType type);
 #ifdef __cplusplus
 }
 #endif

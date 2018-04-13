@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "../"
 
 Item {
     id: root
@@ -47,10 +48,6 @@ Item {
                 spacing: 2
                 CustomText { height: parent.height * 0.8; text: one}
                 CustomText { height: parent.height * 0.8; text: two }
-                CustomText { height: parent.height * 0.8; text: three }
-                CustomText { height: parent.height * 0.8; text: four }
-                CustomText { height: parent.height * 0.8; text: five }
-                CustomText { height: parent.height * 0.8; text: six }
             }
 
             Rectangle {
@@ -67,7 +64,7 @@ Item {
                 Text {
                     id: id_text
                     anchors.centerIn: parent
-                    text: codecname
+                    text: formatname
                     font.pixelSize: id_codecText.height / 2
                     color: "white"
                 }
@@ -87,7 +84,7 @@ Item {
                 Text {
                     id: id_text2
                     anchors.centerIn: parent
-                    text: codeclongname
+                    text: formatlongname
                     font.pixelSize: id_codecLongText.height / 3
                     color: "white"
                 }
@@ -118,15 +115,11 @@ Item {
         anchors.bottom: id_flickarea.bottom
     }
 
-    function addItem(one, two, three, four, five, six, codecname, codeclongname)
+    function addItem(one, two, formatname, formatlongname)
     {
         id_list.append({"one": one,
                         "two": two,
-                        "three": three,
-                        "four": four,
-                        "five": five,
-                        "six": six,
-                        "codecname": codecname,
-                        "codeclongname": codeclongname})
+                        "formatname": formatname,
+                        "formatlongname": formatlongname})
     }
 }
