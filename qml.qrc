@@ -20,5 +20,11 @@
         <file>Information.qml</file>
         <file>template/CodecTemplate.qml</file>
         <file>template/FormatTemplate.qml</file>
+        <file>images/ic_format_indent_increase_black_48dp.png</file>
+        <file>images/ic_format_indent_increase_white_48dp.png</file>
+        <file>Detail.qml</file>
+        <file>FileBrowser.qml</file>
+        <file>images/folder.png</file>
+        <file>images/up.png</file>
     </qresource>
 </RCC>

@@ -9,7 +9,8 @@ SOURCES += main.cpp \
     ffmpeglib/src/ffmpeg_c.c \
     ffmpeglib/src/ffmpeg_filter.c \
     ffmpeglib/src/ffmpeg_hw.c \
-    ffmpeglib/src/ffmpeg_opt.c
+    ffmpeglib/src/ffmpeg_opt.c \
+    fileinformation.cpp
 
 RESOURCES += qml.qrc
 
@@ -28,4 +29,5 @@ DEPENDPATH += $$PWD/ffmpeglib/include
 HEADERS += \
     ffmpeg.h \
     ffmpeglib/include/cmdutils.h \
-    ffmpeglib/include/ffmpeg_c.h
+    ffmpeglib/include/ffmpeg_c.h \
+    fileinformation.h

@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QVector>
+#include <QtCore/QStandardPaths>
+#include <QUrl>
 
 #ifdef __cplusplus
 extern "C" {
@@ -15,6 +17,7 @@ extern "C" {
 #include "libavformat/avformat.h"
 #include "libavutil/ffversion.h"
 #include "libavutil/version.h"
+#include "fileinformation.h"
 
 enum show_muxdemuxers {
     SHOW_DEFAULT,
@@ -82,6 +85,16 @@ public slots:
     QString getMuxersNameAt(int i);
     QString getMuxersLongNameAt(int i);
 
+    //Get File Information
+    int findFormat(QString input);
+    QStringList getMetadata();
+    QStringList getGeneralData();
+    int getStreamCount();
+    QStringList getStreamData(int index);
+
+    //Get movie path
+    QUrl getMovieLocation();
+
 private slots:
     void getGeneralInfo();
     unsigned get_codecs_sorted(const AVCodecDescriptor ***rcodecs);
@@ -113,6 +126,9 @@ private:
     QVector<AVInputFormat*> m_listOfDemuxers;
     QVector<AVOutputFormat*> m_listOfMuxers;
 
+    //For get File Format
+    AVFormatContext *fmt_ctx = NULL;
+    FileInformation* fileFormat = NULL;
 };
 
 #endif // FFMPEG_H

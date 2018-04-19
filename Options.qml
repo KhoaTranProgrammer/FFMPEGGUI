@@ -100,6 +100,8 @@ Item {
     {
         if(root.selectedOption == Data.codecs) {
             return "capabilities/" + "Capabilities.qml"
+        }else if(root.selectedOption == Data.detail) {
+            return "Detail.qml"
         }else if(root.selectedOption == Data.infor) {
             return "Information.qml"
         }else{

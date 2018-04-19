@@ -1,5 +1,5 @@
 #include "ffmpeg.h"
-
+#include <QDebug>
 static FFMpeg *myFFMpeg = NULL;
 
 FFMpeg* FFMpeg::getInstance()
@@ -242,6 +242,52 @@ QString FFMpeg::getMuxersLongNameAt(int i)
     return m_listOfMuxers.at(i)->long_name;
 }
 
+int FFMpeg::findFormat(QString input)
+{
+    input = input.right(input.length() - 8);
+    if(fileFormat != NULL) delete fileFormat;
+    if(fmt_ctx != NULL) avformat_close_input(&fmt_ctx);
+
+    QByteArray array = input.toLocal8Bit();
+    char* buffer = array.data();
+    if (avformat_open_input(&fmt_ctx, buffer, NULL, NULL) < 0) {
+        return 1; //Could not open source file
+    }
+
+    if (avformat_find_stream_info(fmt_ctx, NULL) < 0) {
+        return 2; //Could not find stream information
+    }
+
+    fileFormat = new FileInformation(fmt_ctx);
+    return 0;
+}
+
+QStringList FFMpeg::getMetadata()
+{
+    QStringList nullStr;
+    if(fileFormat) return fileFormat->getMetadata();
+    return nullStr;
+}
+
+QStringList FFMpeg::getGeneralData()
+{
+    QStringList nullStr;
+    if(fileFormat) return fileFormat->getGeneralData();
+    return nullStr;
+}
+
+int FFMpeg::getStreamCount()
+{
+    return fileFormat->getStreamCount();
+}
+
+QStringList FFMpeg::getStreamData(int index)
+{
+    QStringList nullStr;
+    if(fileFormat) return fileFormat->getStreamData(index);
+    return nullStr;
+}
+
 void FFMpeg::getGeneralInfo()
 {
     m_programInfo = "ffmpeg version ";
@@ -256,6 +302,12 @@ void FFMpeg::getGeneralInfo()
 
     m_configurationInfo = "configuration: ";
     m_configurationInfo += FFMPEG_CONFIGURATION;
+}
+
+QUrl FFMpeg::getMovieLocation()
+{
+    const QStringList moviesLocation = QStandardPaths::standardLocations(QStandardPaths::MoviesLocation);
+    return QUrl::fromLocalFile(moviesLocation.front());
 }
 
 unsigned FFMpeg::get_codecs_sorted(const AVCodecDescriptor ***rcodecs)
