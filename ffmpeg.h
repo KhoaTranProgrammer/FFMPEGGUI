@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QtCore/QStandardPaths>
 #include <QUrl>
+#include "customlog.h"
 
 #ifdef __cplusplus
 extern "C" {

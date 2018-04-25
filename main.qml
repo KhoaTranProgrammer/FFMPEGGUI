@@ -1,10 +1,10 @@
 import QtQuick 2.3
-
+import QMLLog 1.0
 Rectangle {
     id: root
     anchors.fill: parent
     color: "#78909C"
-
+    QMLLog {}
     Options {
         id: id_options
         anchors {

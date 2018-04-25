@@ -10,7 +10,9 @@ SOURCES += main.cpp \
     ffmpeglib/src/ffmpeg_filter.c \
     ffmpeglib/src/ffmpeg_hw.c \
     ffmpeglib/src/ffmpeg_opt.c \
-    fileinformation.cpp
+    fileinformation.cpp \
+    customlog.cpp \
+    qmllog.cpp
 
 RESOURCES += qml.qrc
 
@@ -30,4 +32,6 @@ HEADERS += \
     ffmpeg.h \
     ffmpeglib/include/cmdutils.h \
     ffmpeglib/include/ffmpeg_c.h \
-    fileinformation.h
+    fileinformation.h \
+    customlog.h \
+    qmllog.h

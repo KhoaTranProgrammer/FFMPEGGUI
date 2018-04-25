@@ -13,6 +13,9 @@ FFMpeg* FFMpeg::getInstance()
 
 FFMpeg::FFMpeg()
 {
+    //Init custom log
+    CustomLog::getInstance()->setupCallback();
+
     //Init avcodec
     avcodec_register_all();
     av_register_all();

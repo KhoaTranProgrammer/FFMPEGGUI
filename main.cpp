@@ -4,11 +4,14 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 
+#include "qmllog.h"
 #include "ffmpeg.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+
+    qmlRegisterType<QMLLog>("QMLLog", 1, 0, "QMLLog");
 
     QQuickView view;
     view.engine()->rootContext()->setContextProperty("ffmpeg", FFMpeg::getInstance());
