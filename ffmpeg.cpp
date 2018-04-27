@@ -36,21 +36,29 @@ FFMpeg::FFMpeg()
     get_demuxers_list();
 }
 
-int FFMpeg::executeCommandLine()
+int FFMpeg::executeCommandLine(QString cmd)
 {
-    int margc = 2;
+    QStringList cmd_list;
+    QByteArray array;
+
+    cmd_list = cmd.split(' ', QString::SkipEmptyParts);
+
+    int margc = cmd_list.length() + 1;
     char** margv;
-    margv = (char**)malloc(sizeof(char**) * 2);
-    char* t1 = "ffmpeg";
-    char* t2 = "-L";
-    *(margv + 0) = t1;
-    *(margv + 1) = t2;
+
+    margv = (char**)malloc(sizeof(char**) * margc);
+
+    *(margv + 0) = "ffmpeg";
+    for(int i = 0; i < cmd_list.length(); i++){
+        array = cmd_list.at(i).toLocal8Bit();
+        *(margv + 1 + i) = array.data();
+    }
+
     return mymain(margc, margv);
 }
 
 QString FFMpeg::getProgramInfo()
 {
-    executeCommandLine();
     return m_programInfo;
 }
 

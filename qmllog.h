@@ -10,7 +10,7 @@ class QMLLog : public QObject
 public:
     QMLLog();
 
-public slots:
+signals:
     void newLogCome(QString log);
 };
 

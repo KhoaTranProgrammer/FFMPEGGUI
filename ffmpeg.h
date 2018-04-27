@@ -39,7 +39,7 @@ public:
 
 public slots:
     //To execute command line
-    int executeCommandLine();
+    int executeCommandLine(QString cmd);
 
     //For get general information
     QString getProgramInfo();

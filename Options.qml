@@ -54,7 +54,7 @@ Item {
                     }
 
                     text: text1
-                    font.pixelSize: parent.height / 5
+                    font.pixelSize: parent.height / 6
                     color: "black"
                 }
 
@@ -104,6 +104,8 @@ Item {
             return "Detail.qml"
         }else if(root.selectedOption == Data.infor) {
             return "Information.qml"
+        }else if(root.selectedOption == Data.command) {
+            return "CommandLine.qml"
         }else{
             return "";
         }
