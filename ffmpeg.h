@@ -38,6 +38,9 @@ public:
     explicit FFMpeg();
 
 public slots:
+    //To execute command line
+    int executeCommandLine();
+
     //For get general information
     QString getProgramInfo();
     QString getCompilerInfo();

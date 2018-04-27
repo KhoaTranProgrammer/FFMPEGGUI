@@ -9,6 +9,8 @@
 
 #include "config.h"
 #include "libavutil/log.h"
+#include "libavutil/avstring.h"
+#include "libavutil/bprint.h"
 
 #ifdef __cplusplus
 }
@@ -26,6 +28,9 @@ public:
 
 signals:
     void newLog(QString log);
+
+private:
+    void colored_fputs(int level, int tint, const char *str);
 };
 
 #endif // CUSTOMLOG_H

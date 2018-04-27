@@ -3,7 +3,6 @@
 
 QMLLog::QMLLog()
 {
-    qDebug() << "QMLLog";
     QObject::connect(CustomLog::getInstance(), SIGNAL(newLog(QString)), this, SLOT(newLogCome(QString)));
 }
 

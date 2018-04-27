@@ -346,8 +346,8 @@ static int write_option(void *optctx, const OptionDef *po, const char *opt,
             return ret;
         }
     }
-    if (po->flags & OPT_EXIT)
-        exit_program(0);
+//    if (po->flags & OPT_EXIT)
+//        exit_program(0);
 
     return 0;
 }
@@ -763,7 +763,7 @@ int split_commandline(OptionParseContext *octx, int argc, char *argv[],
     int dashdash = -2;
 
     /* perform system-dependent conversions for arguments list */
-    prepare_app_arguments(&argc, &argv);
+//    prepare_app_arguments(&argc, &argv);
 
     init_parse_context(octx, groups, nb_groups);
     av_log(NULL, AV_LOG_DEBUG, "Splitting the commandline.\n");
@@ -1184,12 +1184,12 @@ int show_buildconf(void *optctx, const char *opt, const char *arg)
 int show_license(void *optctx, const char *opt, const char *arg)
 {
 #if CONFIG_NONFREE
-    printf(
+    av_log(NULL, AV_LOG_INFO,
     "This version of %s has nonfree parts compiled in.\n"
     "Therefore it is not legally redistributable.\n",
     program_name );
 #elif CONFIG_GPLV3
-    printf(
+    av_log(NULL, AV_LOG_INFO,
     "%s is free software; you can redistribute it and/or modify\n"
     "it under the terms of the GNU General Public License as published by\n"
     "the Free Software Foundation; either version 3 of the License, or\n"
@@ -1204,7 +1204,7 @@ int show_license(void *optctx, const char *opt, const char *arg)
     "along with %s.  If not, see <http://www.gnu.org/licenses/>.\n",
     program_name, program_name, program_name );
 #elif CONFIG_GPL
-    printf(
+    av_log(NULL, AV_LOG_INFO,
     "%s is free software; you can redistribute it and/or modify\n"
     "it under the terms of the GNU General Public License as published by\n"
     "the Free Software Foundation; either version 2 of the License, or\n"
@@ -1220,7 +1220,7 @@ int show_license(void *optctx, const char *opt, const char *arg)
     "Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA\n",
     program_name, program_name, program_name );
 #elif CONFIG_LGPLV3
-    printf(
+    av_log(NULL, AV_LOG_INFO,
     "%s is free software; you can redistribute it and/or modify\n"
     "it under the terms of the GNU Lesser General Public License as published by\n"
     "the Free Software Foundation; either version 3 of the License, or\n"
@@ -1235,7 +1235,7 @@ int show_license(void *optctx, const char *opt, const char *arg)
     "along with %s.  If not, see <http://www.gnu.org/licenses/>.\n",
     program_name, program_name, program_name );
 #else
-    printf(
+    av_log(NULL, AV_LOG_INFO,
     "%s is free software; you can redistribute it and/or\n"
     "modify it under the terms of the GNU Lesser General Public\n"
     "License as published by the Free Software Foundation; either\n"

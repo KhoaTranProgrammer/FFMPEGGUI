@@ -36,8 +36,21 @@ FFMpeg::FFMpeg()
     get_demuxers_list();
 }
 
+int FFMpeg::executeCommandLine()
+{
+    int margc = 2;
+    char** margv;
+    margv = (char**)malloc(sizeof(char**) * 2);
+    char* t1 = "ffmpeg";
+    char* t2 = "-L";
+    *(margv + 0) = t1;
+    *(margv + 1) = t2;
+    return mymain(margc, margv);
+}
+
 QString FFMpeg::getProgramInfo()
 {
+    executeCommandLine();
     return m_programInfo;
 }
 
