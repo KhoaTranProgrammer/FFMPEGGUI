@@ -1077,7 +1077,7 @@ static int warned_cfg = 0;
         if (flags & SHOW_VERSION) {                                     \
             unsigned int version = libname##_version();                 \
             av_log(NULL, level,                                         \
-                   "%slib%-11s %2d.%3d.%3d / %2d.%3d.%3d\n",            \
+                   "%slib%-11s %2d.%3d.%3d / %2d.%3d.%3d",            \
                    indent, #libname,                                    \
                    LIB##LIBNAME##_VERSION_MAJOR,                        \
                    LIB##LIBNAME##_VERSION_MINOR,                        \
@@ -1090,11 +1090,11 @@ static int warned_cfg = 0;
             if (strcmp(FFMPEG_CONFIGURATION, cfg)) {                    \
                 if (!warned_cfg) {                                      \
                     av_log(NULL, level,                                 \
-                            "%sWARNING: library configuration mismatch\n", \
+                            "%sWARNING: library configuration mismatch", \
                             indent);                                    \
                     warned_cfg = 1;                                     \
                 }                                                       \
-                av_log(NULL, level, "%s%-11s configuration: %s\n",      \
+                av_log(NULL, level, "%s%-11s configuration: %s",      \
                         indent, #libname, cfg);                         \
             }                                                           \
         }                                                               \
@@ -1121,10 +1121,10 @@ void print_program_info(int flags, int level)
     if (flags & SHOW_COPYRIGHT)
         av_log(NULL, level, " Copyright (c) %d-%d the FFmpeg developers",
                program_birth_year, CONFIG_THIS_YEAR);
-    av_log(NULL, level, "\n");
-    av_log(NULL, level, "%sbuilt with %s\n", indent, CC_IDENT);
+    //av_log(NULL, level, "\n");
+    av_log(NULL, level, "%sbuilt with %s", indent, CC_IDENT);
 
-    av_log(NULL, level, "%sconfiguration: " FFMPEG_CONFIGURATION "\n", indent);
+    av_log(NULL, level, "%sconfiguration: " FFMPEG_CONFIGURATION, indent);
 }
 
 void print_buildconf(int flags, int level)
@@ -1236,19 +1236,19 @@ int show_license(void *optctx, const char *opt, const char *arg)
     program_name, program_name, program_name );
 #else
     av_log(NULL, AV_LOG_INFO,
-    "%s is free software; you can redistribute it and/or\n"
-    "modify it under the terms of the GNU Lesser General Public\n"
-    "License as published by the Free Software Foundation; either\n"
-    "version 2.1 of the License, or (at your option) any later version.\n"
-    "\n"
-    "%s is distributed in the hope that it will be useful,\n"
-    "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-    "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU\n"
-    "Lesser General Public License for more details.\n"
-    "\n"
-    "You should have received a copy of the GNU Lesser General Public\n"
-    "License along with %s; if not, write to the Free Software\n"
-    "Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA\n",
+    "%s is free software; you can redistribute it and/or "
+    "modify it under the terms of the GNU Lesser General Public "
+    "License as published by the Free Software Foundation; either "
+    "version 2.1 of the License, or (at your option) any later version. "
+    ""
+    "%s is distributed in the hope that it will be useful, "
+    "but WITHOUT ANY WARRANTY; without even the implied warranty of "
+    "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU "
+    "Lesser General Public License for more details. "
+    ""
+    "You should have received a copy of the GNU Lesser General Public "
+    "License along with %s; if not, write to the Free Software "
+    "Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA",
     program_name, program_name, program_name );
 #endif
 
