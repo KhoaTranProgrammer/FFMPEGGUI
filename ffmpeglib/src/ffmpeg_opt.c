@@ -3239,7 +3239,7 @@ void show_help_default(const char *opt, const char *arg)
 //#endif
 //        show_help_children(swr_get_class(), AV_OPT_FLAG_AUDIO_PARAM);
 //        show_help_children(avfilter_get_class(), AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_AUDIO_PARAM | AV_OPT_FLAG_FILTERING_PARAM);
-//    }
+    }
 }
 
 void show_usage(void)
