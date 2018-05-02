@@ -1,10 +1,9 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.4
 import QMLLog 1.0
 
 Item {
     id: root
-
-    property int numberOfLine: 0
 
     Text {
         id: id_textFFmpeg
@@ -67,12 +66,11 @@ Item {
     QMLLog {
         onNewLogCome: {
             id_textOutputLog.text += log
-            numberOfLine++
         }
     }
 
-    Flickable {
-        id: id_flickarea
+    TextArea  {
+        id: id_textOutputLog
         anchors {
             left: parent.left
             right: parent.right
@@ -80,17 +78,10 @@ Item {
             bottom: parent.bottom
         }
 
-        contentHeight: numberOfLine * 20
-        clip: true
-
-        Text {
-            id: id_textOutputLog
-            anchors.fill: parent
-
-            text: ""
-            font.pixelSize: 15
-            color: "white"
-            wrapMode: Text.WordWrap
-        }
+        readOnly: true
+        text: ""
+        font.pixelSize: 15
+        textColor: "black"
+        wrapMode: Text.WordWrap
     }
 }
