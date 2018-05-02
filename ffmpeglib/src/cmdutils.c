@@ -195,7 +195,7 @@ void show_help_options(const OptionDef *options, const char *msg, int req_flags,
             continue;
 
         if (first) {
-            printf("%s\n", msg);
+            av_log(NULL, AV_LOG_INFO, "%s\n", msg);
             first = 0;
         }
         av_strlcpy(buf, po->name, sizeof(buf));
@@ -203,9 +203,9 @@ void show_help_options(const OptionDef *options, const char *msg, int req_flags,
             av_strlcat(buf, " ", sizeof(buf));
             av_strlcat(buf, po->argname, sizeof(buf));
         }
-        printf("-%-17s  %s\n", buf, po->help);
+        av_log(NULL, AV_LOG_INFO, "-%-17s  %s\n", buf, po->help);
     }
-    printf("\n");
+    av_log(NULL, AV_LOG_INFO, "\n");
 }
 
 void show_help_children(const AVClass *mclass, int flags)
@@ -1077,7 +1077,7 @@ static int warned_cfg = 0;
         if (flags & SHOW_VERSION) {                                     \
             unsigned int version = libname##_version();                 \
             av_log(NULL, level,                                         \
-                   "%slib%-11s %2d.%3d.%3d / %2d.%3d.%3d",            \
+                   "%slib%-11s %2d.%3d.%3d / %2d.%3d.%3d\n",            \
                    indent, #libname,                                    \
                    LIB##LIBNAME##_VERSION_MAJOR,                        \
                    LIB##LIBNAME##_VERSION_MINOR,                        \
@@ -1090,11 +1090,11 @@ static int warned_cfg = 0;
             if (strcmp(FFMPEG_CONFIGURATION, cfg)) {                    \
                 if (!warned_cfg) {                                      \
                     av_log(NULL, level,                                 \
-                            "%sWARNING: library configuration mismatch", \
+                            "%sWARNING: library configuration mismatch\n", \
                             indent);                                    \
                     warned_cfg = 1;                                     \
                 }                                                       \
-                av_log(NULL, level, "%s%-11s configuration: %s",      \
+                av_log(NULL, level, "%s%-11s configuration: %s\n",      \
                         indent, #libname, cfg);                         \
             }                                                           \
         }                                                               \
@@ -1121,10 +1121,10 @@ void print_program_info(int flags, int level)
     if (flags & SHOW_COPYRIGHT)
         av_log(NULL, level, " Copyright (c) %d-%d the FFmpeg developers",
                program_birth_year, CONFIG_THIS_YEAR);
-    //av_log(NULL, level, "\n");
-    av_log(NULL, level, "%sbuilt with %s", indent, CC_IDENT);
+    av_log(NULL, level, "\n");
+    av_log(NULL, level, "%sbuilt with %s\n", indent, CC_IDENT);
 
-    av_log(NULL, level, "%sconfiguration: " FFMPEG_CONFIGURATION, indent);
+    av_log(NULL, level, "%sconfiguration: " FFMPEG_CONFIGURATION "\n", indent);
 }
 
 void print_buildconf(int flags, int level)
@@ -1905,7 +1905,7 @@ void show_help_filter(const char *name)
 int show_help(void *optctx, const char *opt, const char *arg)
 {
     char *topic, *par;
-    av_log_set_callback(log_callback_help);
+//    av_log_set_callback(log_callback_help);
 
     topic = av_strdup(arg ? arg : "");
     if (!topic)

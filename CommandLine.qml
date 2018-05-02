@@ -4,6 +4,8 @@ import QMLLog 1.0
 Item {
     id: root
 
+    property int numberOfLine: 0
+
     Text {
         id: id_textFFmpeg
         anchors {
@@ -64,24 +66,8 @@ Item {
 
     QMLLog {
         onNewLogCome: {
-            id_list.append({"name": log})
-        }
-    }
-
-    ListModel {
-        id: id_list
-    }
-
-    Component {
-        id: id_displayDelegate
-
-        Text {
-            width: root.width
-
-            text: name
-            font.pixelSize: 15
-            color: "white"
-            wrapMode: Text.WordWrap
+            id_textOutputLog.text += log
+            numberOfLine++
         }
     }
 
@@ -94,16 +80,17 @@ Item {
             bottom: parent.bottom
         }
 
-        contentHeight: id_list.count * root.height * 0.1
+        contentHeight: numberOfLine * 20
         clip: true
 
-        Column {
+        Text {
+            id: id_textOutputLog
             anchors.fill: parent
-            spacing: 10
-            Repeater {
-                model: id_list
-                delegate: id_displayDelegate
-            }
+
+            text: ""
+            font.pixelSize: 15
+            color: "white"
+            wrapMode: Text.WordWrap
         }
     }
 }

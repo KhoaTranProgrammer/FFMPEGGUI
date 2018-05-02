@@ -3190,7 +3190,7 @@ void show_help_default(const char *opt, const char *arg)
 
     show_usage();
 
-    printf("Getting help:\n"
+    av_log(NULL, AV_LOG_INFO, "Getting help:\n"
            "    -h      -- print basic options\n"
            "    -h long -- print more options\n"
            "    -h full -- print all options (including all format and codec specific options, very long)\n"
@@ -3228,17 +3228,17 @@ void show_help_default(const char *opt, const char *arg)
                           OPT_EXPERT | OPT_AUDIO, OPT_VIDEO, 0);
     show_help_options(options, "Subtitle options:",
                       OPT_SUBTITLE, 0, 0);
-    printf("\n");
+    av_log(NULL, AV_LOG_INFO, "\n");
 
     if (show_avoptions) {
         int flags = AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_ENCODING_PARAM;
         show_help_children(avcodec_get_class(), flags);
-        show_help_children(avformat_get_class(), flags);
-#if CONFIG_SWSCALE
-        show_help_children(sws_get_class(), flags);
-#endif
-        show_help_children(swr_get_class(), AV_OPT_FLAG_AUDIO_PARAM);
-        show_help_children(avfilter_get_class(), AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_AUDIO_PARAM | AV_OPT_FLAG_FILTERING_PARAM);
+//        show_help_children(avformat_get_class(), flags);
+//#if CONFIG_SWSCALE
+//        show_help_children(sws_get_class(), flags);
+//#endif
+//        show_help_children(swr_get_class(), AV_OPT_FLAG_AUDIO_PARAM);
+//        show_help_children(avfilter_get_class(), AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_AUDIO_PARAM | AV_OPT_FLAG_FILTERING_PARAM);
     }
 }
 
@@ -3246,7 +3246,6 @@ void show_usage(void)
 {
     av_log(NULL, AV_LOG_INFO, "Hyper fast Audio and Video encoder\n");
     av_log(NULL, AV_LOG_INFO, "usage: %s [options] [[infile options] -i infile]... {[outfile options] outfile}...\n", program_name);
-    av_log(NULL, AV_LOG_INFO, "\n");
 }
 
 enum OptGroup {
