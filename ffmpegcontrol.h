@@ -6,13 +6,14 @@
 #include <QtCore/QStandardPaths>
 #include <QUrl>
 #include "customlog.h"
+#include "commandlinethread.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include "config.h"
-#include "ffmpeg_c.h"
+#include "ffmpeg.h"
 #include "cmdutils.h"
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
@@ -30,12 +31,12 @@ enum show_muxdemuxers {
 }
 #endif
 
-class FFMpeg : public QObject
+class FFMpegControl : public QObject
 {
     Q_OBJECT
 public:
-    static FFMpeg* getInstance();
-    explicit FFMpeg();
+    static FFMpegControl* getInstance();
+    explicit FFMpegControl();
 
 public slots:
     //To execute command line

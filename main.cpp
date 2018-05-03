@@ -5,7 +5,7 @@
 #include <QQmlContext>
 
 #include "qmllog.h"
-#include "ffmpeg.h"
+#include "ffmpegcontrol.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<QMLLog>("QMLLog", 1, 0, "QMLLog");
 
     QQuickView view;
-    view.engine()->rootContext()->setContextProperty("ffmpeg", FFMpeg::getInstance());
+    view.engine()->rootContext()->setContextProperty("ffmpeg", FFMpegControl::getInstance());
     view.setSource(QUrl("qrc:/main.qml"));
     view.setMinimumSize(QSize(800, 480));
     view.show();

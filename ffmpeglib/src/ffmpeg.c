@@ -108,7 +108,7 @@
 
 #include <time.h>
 
-#include "ffmpeg_c.h"
+#include "ffmpeg.h"
 #include "cmdutils.h"
 
 #include "libavutil/avassert.h"

@@ -20,7 +20,7 @@
 
 #include "libavutil/avstring.h"
 
-#include "ffmpeg_c.h"
+#include "ffmpeg.h"
 
 static int nb_hw_devices;
 static HWDevice **hw_devices;

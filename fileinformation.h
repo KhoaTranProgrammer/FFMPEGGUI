@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 #include "config.h"
-#include "ffmpeg_c.h"
+#include "ffmpeg.h"
 #include "cmdutils.h"
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"

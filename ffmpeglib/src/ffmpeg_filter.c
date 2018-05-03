@@ -23,7 +23,7 @@
 #endif
 #include <stdint.h>
 
-#include "ffmpeg_c.h"
+#include "ffmpeg.h"
 
 #include "libavfilter/avfilter.h"
 #include "libavfilter/buffersink.h"

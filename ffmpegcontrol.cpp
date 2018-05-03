@@ -1,17 +1,17 @@
-#include "ffmpeg.h"
+#include "ffmpegcontrol.h"
 #include <QDebug>
-static FFMpeg *myFFMpeg = NULL;
+static FFMpegControl *myFFMpeg = NULL;
 
-FFMpeg* FFMpeg::getInstance()
+FFMpegControl* FFMpegControl::getInstance()
 {
     if(!myFFMpeg){
-        myFFMpeg = new FFMpeg();
+        myFFMpeg = new FFMpegControl();
     }
 
     return myFFMpeg;
 }
 
-FFMpeg::FFMpeg()
+FFMpegControl::FFMpegControl()
 {
     //Init custom log
     CustomLog::getInstance()->setupCallback();
@@ -36,108 +36,93 @@ FFMpeg::FFMpeg()
     get_demuxers_list();
 }
 
-int FFMpeg::executeCommandLine(QString cmd)
+int FFMpegControl::executeCommandLine(QString cmd)
 {
-    QStringList cmd_list;
-    QByteArray array;
-
-    cmd_list = cmd.split(' ', QString::SkipEmptyParts);
-
-    int margc = cmd_list.length() + 1;
-    char** margv;
-
-    margv = (char**)malloc(sizeof(char**) * margc);
-
-    *(margv + 0) = "ffmpeg";
-    for(int i = 0; i < cmd_list.length(); i++){
-        array = cmd_list.at(i).toLocal8Bit();
-        *(margv + 1 + i) = array.data();
-    }
-
-    return mymain(margc, margv);
+    CommandLineThread::getInstance()->executeCommandLine(cmd);
+    return 0;
 }
 
-QString FFMpeg::getProgramInfo()
+QString FFMpegControl::getProgramInfo()
 {
     return m_programInfo;
 }
 
-QString FFMpeg::getCompilerInfo()
+QString FFMpegControl::getCompilerInfo()
 {
     return m_compilerInfo;
 }
 
-QString FFMpeg::getConfigurationInfo()
+QString FFMpegControl::getConfigurationInfo()
 {
     return m_configurationInfo;
 }
 
-int FFMpeg::getCodecsCount()
+int FFMpegControl::getCodecsCount()
 {
     return m_nbCodecs;
 }
 
-QString FFMpeg::getCodecsNameAt(int i)
+QString FFMpegControl::getCodecsNameAt(int i)
 {
     return m_listOfCodecs[i]->name;
 }
 
-QString FFMpeg::getCodecsLongNameAt(int i)
+QString FFMpegControl::getCodecsLongNameAt(int i)
 {
     return m_listOfCodecs[i]->long_name;
 }
 
-QString FFMpeg::getCodecsType(int i)
+QString FFMpegControl::getCodecsType(int i)
 {
     return (QString)get_media_type_char(m_listOfCodecs[i]->type);
 }
 
-QString FFMpeg::getCodecsDecoder(int i)
+QString FFMpegControl::getCodecsDecoder(int i)
 {
     if(avcodec_find_decoder(m_listOfCodecs[i]->id)) return "D";
     return ".";
 }
 
-QString FFMpeg::getCodecsEncoder(int i)
+QString FFMpegControl::getCodecsEncoder(int i)
 {
     if(avcodec_find_encoder(m_listOfCodecs[i]->id)) return "E";
     return ".";
 }
 
-QString FFMpeg::getCodecsIntraOnly(int i)
+QString FFMpegControl::getCodecsIntraOnly(int i)
 {
     if(m_listOfCodecs[i]->props & AV_CODEC_PROP_INTRA_ONLY) return "I";
     return ".";
 }
 
-QString FFMpeg::getCodecsLossy(int i)
+QString FFMpegControl::getCodecsLossy(int i)
 {
     if(m_listOfCodecs[i]->props & AV_CODEC_PROP_LOSSY) return "L";
     return ".";
 }
 
-QString FFMpeg::getCodecsLossless(int i)
+QString FFMpegControl::getCodecsLossless(int i)
 {
     if(m_listOfCodecs[i]->props & AV_CODEC_PROP_LOSSLESS) return "S";
     return ".";
 }
 
-int FFMpeg::getDecodersCount()
+int FFMpegControl::getDecodersCount()
 {
     return m_listOfDecoders.count();
 }
 
-QString FFMpeg::getDecoderNameAt(int i)
+QString FFMpegControl::getDecoderNameAt(int i)
 {
     return m_listOfDecoders.at(i)->name;
 }
 
-QString FFMpeg::getDecoderLongNameAt(int i)
+QString FFMpegControl::getDecoderLongNameAt(int i)
 {
     return m_listOfDecoders.at(i)->long_name;
 }
 
-QString FFMpeg::getDecoderType(int i)
+QString FFMpegControl::getDecoderType(int i)
 {
     switch (m_listOfDecoders.at(i)->type) {
         case AVMEDIA_TYPE_VIDEO:        return "V";
@@ -149,52 +134,52 @@ QString FFMpeg::getDecoderType(int i)
     }
 }
 
-QString FFMpeg::getDecoderFrameThreads(int i)
+QString FFMpegControl::getDecoderFrameThreads(int i)
 {
     if(m_listOfDecoders.at(i)->capabilities & AV_CODEC_CAP_FRAME_THREADS) return "F";
     return ".";
 }
 
-QString FFMpeg::getDecoderSliceThreads(int i)
+QString FFMpegControl::getDecoderSliceThreads(int i)
 {
     if(m_listOfDecoders.at(i)->capabilities & AV_CODEC_CAP_SLICE_THREADS) return "S";
     return ".";
 }
 
-QString FFMpeg::getDecoderExperimental(int i)
+QString FFMpegControl::getDecoderExperimental(int i)
 {
     if(m_listOfDecoders.at(i)->capabilities & AV_CODEC_CAP_EXPERIMENTAL) return "X";
     return ".";
 }
 
-QString FFMpeg::getDecoderDrawHorizBand(int i)
+QString FFMpegControl::getDecoderDrawHorizBand(int i)
 {
     if(m_listOfDecoders.at(i)->capabilities & AV_CODEC_CAP_DRAW_HORIZ_BAND) return "B";
     return ".";
 }
 
-QString FFMpeg::getDecoderDr1(int i)
+QString FFMpegControl::getDecoderDr1(int i)
 {
     if(m_listOfDecoders.at(i)->capabilities & AV_CODEC_CAP_DR1) return "D";
     return ".";
 }
 
-int FFMpeg::getEncodersCount()
+int FFMpegControl::getEncodersCount()
 {
     return m_listOfEncoders.count();
 }
 
-QString FFMpeg::getEncoderNameAt(int i)
+QString FFMpegControl::getEncoderNameAt(int i)
 {
     return m_listOfEncoders.at(i)->name;
 }
 
-QString FFMpeg::getEncoderLongNameAt(int i)
+QString FFMpegControl::getEncoderLongNameAt(int i)
 {
     return m_listOfEncoders.at(i)->long_name;
 }
 
-QString FFMpeg::getEncoderType(int i)
+QString FFMpegControl::getEncoderType(int i)
 {
     switch (m_listOfEncoders.at(i)->type) {
         case AVMEDIA_TYPE_VIDEO:        return "V";
@@ -206,67 +191,67 @@ QString FFMpeg::getEncoderType(int i)
     }
 }
 
-QString FFMpeg::getEncoderFrameThreads(int i)
+QString FFMpegControl::getEncoderFrameThreads(int i)
 {
     if(m_listOfEncoders.at(i)->capabilities & AV_CODEC_CAP_FRAME_THREADS) return "F";
     return ".";
 }
 
-QString FFMpeg::getEncoderSliceThreads(int i)
+QString FFMpegControl::getEncoderSliceThreads(int i)
 {
     if(m_listOfEncoders.at(i)->capabilities & AV_CODEC_CAP_SLICE_THREADS) return "S";
     return ".";
 }
 
-QString FFMpeg::getEncoderExperimental(int i)
+QString FFMpegControl::getEncoderExperimental(int i)
 {
     if(m_listOfEncoders.at(i)->capabilities & AV_CODEC_CAP_EXPERIMENTAL) return "X";
     return ".";
 }
 
-QString FFMpeg::getEncoderDrawHorizBand(int i)
+QString FFMpegControl::getEncoderDrawHorizBand(int i)
 {
     if(m_listOfEncoders.at(i)->capabilities & AV_CODEC_CAP_DRAW_HORIZ_BAND) return "B";
     return ".";
 }
 
-QString FFMpeg::getEncoderDr1(int i)
+QString FFMpegControl::getEncoderDr1(int i)
 {
     if(m_listOfEncoders.at(i)->capabilities & AV_CODEC_CAP_DR1) return "D";
     return ".";
 }
 
-int FFMpeg::getDemuxersCount()
+int FFMpegControl::getDemuxersCount()
 {
     return m_listOfDemuxers.length();
 }
 
-QString FFMpeg::getDemuxersNameAt(int i)
+QString FFMpegControl::getDemuxersNameAt(int i)
 {
     return m_listOfDemuxers.at(i)->name;
 }
 
-QString FFMpeg::getDemuxersLongNameAt(int i)
+QString FFMpegControl::getDemuxersLongNameAt(int i)
 {
     return m_listOfDemuxers.at(i)->long_name;
 }
 
-int FFMpeg::getMuxersCount()
+int FFMpegControl::getMuxersCount()
 {
     return m_listOfMuxers.length();
 }
 
-QString FFMpeg::getMuxersNameAt(int i)
+QString FFMpegControl::getMuxersNameAt(int i)
 {
     return m_listOfMuxers.at(i)->name;
 }
 
-QString FFMpeg::getMuxersLongNameAt(int i)
+QString FFMpegControl::getMuxersLongNameAt(int i)
 {
     return m_listOfMuxers.at(i)->long_name;
 }
 
-int FFMpeg::findFormat(QString input)
+int FFMpegControl::findFormat(QString input)
 {
     input = input.right(input.length() - 8);
     if(fileFormat != NULL) delete fileFormat;
@@ -286,33 +271,33 @@ int FFMpeg::findFormat(QString input)
     return 0;
 }
 
-QStringList FFMpeg::getMetadata()
+QStringList FFMpegControl::getMetadata()
 {
     QStringList nullStr;
     if(fileFormat) return fileFormat->getMetadata();
     return nullStr;
 }
 
-QStringList FFMpeg::getGeneralData()
+QStringList FFMpegControl::getGeneralData()
 {
     QStringList nullStr;
     if(fileFormat) return fileFormat->getGeneralData();
     return nullStr;
 }
 
-int FFMpeg::getStreamCount()
+int FFMpegControl::getStreamCount()
 {
     return fileFormat->getStreamCount();
 }
 
-QStringList FFMpeg::getStreamData(int index)
+QStringList FFMpegControl::getStreamData(int index)
 {
     QStringList nullStr;
     if(fileFormat) return fileFormat->getStreamData(index);
     return nullStr;
 }
 
-void FFMpeg::getGeneralInfo()
+void FFMpegControl::getGeneralInfo()
 {
     m_programInfo = "ffmpeg version ";
     m_programInfo += FFMPEG_VERSION;
@@ -328,13 +313,13 @@ void FFMpeg::getGeneralInfo()
     m_configurationInfo += FFMPEG_CONFIGURATION;
 }
 
-QUrl FFMpeg::getMovieLocation()
+QUrl FFMpegControl::getMovieLocation()
 {
     const QStringList moviesLocation = QStandardPaths::standardLocations(QStandardPaths::MoviesLocation);
     return QUrl::fromLocalFile(moviesLocation.front());
 }
 
-unsigned FFMpeg::get_codecs_sorted(const AVCodecDescriptor ***rcodecs)
+unsigned FFMpegControl::get_codecs_sorted(const AVCodecDescriptor ***rcodecs)
 {
     const AVCodecDescriptor *desc = NULL;
     const AVCodecDescriptor **codecs;
@@ -352,7 +337,7 @@ unsigned FFMpeg::get_codecs_sorted(const AVCodecDescriptor ***rcodecs)
     return nb_codecs;
 }
 
-AVCodec* FFMpeg::next_codec_for_id(enum AVCodecID id, AVCodec *prev, int encoder)
+AVCodec* FFMpegControl::next_codec_for_id(enum AVCodecID id, AVCodec *prev, int encoder)
 {
     while ((prev = av_codec_next(prev))) {
         if (prev->id == id &&
@@ -362,7 +347,7 @@ AVCodec* FFMpeg::next_codec_for_id(enum AVCodecID id, AVCodec *prev, int encoder
     return NULL;
 }
 
-void FFMpeg::get_decodecs_list()
+void FFMpegControl::get_decodecs_list()
 {
     unsigned i;
     for (i = 0; i < m_nbCodecs; i++) {
@@ -375,7 +360,7 @@ void FFMpeg::get_decodecs_list()
     }
 }
 
-void FFMpeg::get_encodecs_list()
+void FFMpegControl::get_encodecs_list()
 {
     unsigned i;
     for (i = 0; i < m_nbCodecs; i++) {
@@ -395,7 +380,7 @@ int is_device(const AVClass *avclass)
     return AV_IS_INPUT_DEVICE(avclass->category) || AV_IS_OUTPUT_DEVICE(avclass->category);
 }
 
-void FFMpeg::get_muxers_list()
+void FFMpegControl::get_muxers_list()
 {
     int device_only = 0;
     int muxdemuxers = SHOW_DEFAULT;
@@ -430,7 +415,7 @@ void FFMpeg::get_muxers_list()
     }
 }
 
-void FFMpeg::get_demuxers_list()
+void FFMpegControl::get_demuxers_list()
 {
     int device_only = 0;
     int muxdemuxers = SHOW_DEFAULT;
@@ -468,7 +453,7 @@ void FFMpeg::get_demuxers_list()
     }
 }
 
-void FFMpeg::add_muxerToList(AVOutputFormat *ofmt)
+void FFMpegControl::add_muxerToList(AVOutputFormat *ofmt)
 {
     for(int i = 0; i < m_listOfMuxers.length(); i++)
     {
@@ -477,7 +462,7 @@ void FFMpeg::add_muxerToList(AVOutputFormat *ofmt)
     m_listOfMuxers.append(ofmt);
 }
 
-void FFMpeg::add_demuxerToList(AVInputFormat *ifmt)
+void FFMpegControl::add_demuxerToList(AVInputFormat *ifmt)
 {
     for(int i = 0; i < m_listOfDemuxers.length(); i++)
     {
