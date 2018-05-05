@@ -1693,7 +1693,7 @@ int show_pix_fmts(void *optctx, const char *opt, const char *arg)
 {
     const AVPixFmtDescriptor *pix_desc = NULL;
 
-    printf("Pixel formats:\n"
+    av_log(NULL, AV_LOG_INFO, "Pixel formats:\n"
            "I.... = Supported Input  format for conversion\n"
            ".O... = Supported Output format for conversion\n"
            "..H.. = Hardware accelerated format\n"
@@ -1709,7 +1709,7 @@ int show_pix_fmts(void *optctx, const char *opt, const char *arg)
 
     while ((pix_desc = av_pix_fmt_desc_next(pix_desc))) {
         enum AVPixelFormat pix_fmt = av_pix_fmt_desc_get_id(pix_desc);
-        printf("%c%c%c%c%c %-16s       %d            %2d\n",
+        av_log(NULL, AV_LOG_INFO, "%c%c%c%c%c %-16s       %d            %2d\n",
                sws_isSupportedInput (pix_fmt)              ? 'I' : '.',
                sws_isSupportedOutput(pix_fmt)              ? 'O' : '.',
                pix_desc->flags & AV_PIX_FMT_FLAG_HWACCEL   ? 'H' : '.',
