@@ -1607,10 +1607,10 @@ int show_bsfs(void *optctx, const char *opt, const char *arg)
     const AVBitStreamFilter *bsf = NULL;
     void *opaque = NULL;
 
-    printf("Bitstream filters:\n");
+    av_log(NULL, AV_LOG_INFO, "Bitstream filters:\n");
     while ((bsf = av_bsf_next(&opaque)))
-        printf("%s\n", bsf->name);
-    printf("\n");
+        av_log(NULL, AV_LOG_INFO, "%s\n", bsf->name);
+    av_log(NULL, AV_LOG_INFO, "\n");
     return 0;
 }
 
@@ -1619,13 +1619,13 @@ int show_protocols(void *optctx, const char *opt, const char *arg)
     void *opaque = NULL;
     const char *name;
 
-    printf("Supported file protocols:\n"
+    av_log(NULL, AV_LOG_INFO, "Supported file protocols:\n"
            "Input:\n");
     while ((name = avio_enum_protocols(&opaque, 0)))
-        printf("  %s\n", name);
-    printf("Output:\n");
+        av_log(NULL, AV_LOG_INFO, "  %s\n", name);
+    av_log(NULL, AV_LOG_INFO, "Output:\n");
     while ((name = avio_enum_protocols(&opaque, 1)))
-        printf("  %s\n", name);
+        av_log(NULL, AV_LOG_INFO, "  %s\n", name);
     return 0;
 }
 
