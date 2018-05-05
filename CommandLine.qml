@@ -71,7 +71,7 @@ Item {
         }
     }
 
-    TextArea  {
+    TextArea {
         id: id_textOutputLog
         anchors {
             left: parent.left
@@ -82,6 +82,7 @@ Item {
 
         readOnly: true
         text: ""
+        font.family: "Courier New"
         font.pixelSize: 15
         textColor: "black"
         wrapMode: Text.WordWrap
