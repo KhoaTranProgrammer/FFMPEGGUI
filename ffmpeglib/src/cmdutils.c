@@ -213,7 +213,7 @@ void show_help_children(const AVClass *mclass, int flags)
     const AVClass *child = NULL;
     if (mclass->option) {
         av_opt_show2(&mclass, NULL, flags, 0);
-        printf("\n");
+        av_log(NULL, AV_LOG_INFO, "\n");
     }
 
     while (child = av_opt_child_class_next(mclass, child))

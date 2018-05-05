@@ -104,7 +104,9 @@ CustomLog* CustomLog::getInstance()
 
 CustomLog::CustomLog()
 {
-
+    m_timer = new QTimer(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(update()));
+    m_timer->start(100);
 }
 
 void CustomLog::setupCallback()
@@ -156,10 +158,19 @@ void CustomLog::processCallback(void* ptr, int level, const char* fmt, va_list v
     colored_fputs(av_clip(level >> 3, 0, NB_LEVELS - 1), tint >> 8, part[3].str);
 }
 
+void CustomLog::update()
+{
+    if(m_buffer != "")
+    {
+        emit newLog(m_buffer);
+        m_buffer = "";
+    }
+}
+
 void CustomLog::colored_fputs(int level, int tint, const char *str)
 {
     if (!*str)
         return;
 
-    emit newLog(QString(str));
+    m_buffer += str;
 }

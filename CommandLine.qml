@@ -58,6 +58,7 @@ Item {
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                id_textOutputLog.text = ""
                 ffmpeg.executeCommandLine(id_command.text)
             }
         }
@@ -66,6 +67,7 @@ Item {
     QMLLog {
         onNewLogCome: {
             id_textOutputLog.text += log
+            id_textOutputLog.cursorPosition = id_textOutputLog.text.length
         }
     }
 

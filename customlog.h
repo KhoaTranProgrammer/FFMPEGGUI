@@ -2,6 +2,7 @@
 #define CUSTOMLOG_H
 
 #include <QObject>
+#include <QTimer>
 
 #ifdef __cplusplus
   extern "C" {
@@ -26,11 +27,17 @@ public:
     void setupCallback();
     void processCallback(void* ptr, int level, const char* fmt, va_list vl);
 
+public slots:
+    void update();
+
 signals:
     void newLog(QString log);
 
 private:
     void colored_fputs(int level, int tint, const char *str);
+
+    QString m_buffer;
+    QTimer* m_timer;
 };
 
 #endif // CUSTOMLOG_H
