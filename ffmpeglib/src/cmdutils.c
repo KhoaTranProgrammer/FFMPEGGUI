@@ -1269,7 +1269,7 @@ int show_formats_devices(void *optctx, const char *opt, const char *arg, int dev
     const char *last_name;
     int is_dev;
 
-    printf("%s\n"
+    av_log(NULL, AV_LOG_INFO, "%s\n"
            " D. = Demuxing supported\n"
            " .E = Muxing supported\n"
            " --\n", device_only ? "Devices:" : "File formats:");
@@ -1312,7 +1312,7 @@ int show_formats_devices(void *optctx, const char *opt, const char *arg, int dev
             break;
         last_name = name;
 
-        printf(" %s%s %-15s %s\n",
+        av_log(NULL, AV_LOG_INFO, " %s%s %-15s %s\n",
                decode ? "D" : " ",
                encode ? "E" : " ",
                name,
