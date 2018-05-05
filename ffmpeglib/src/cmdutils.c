@@ -1557,7 +1557,7 @@ void print_codecs(int encoder)
     const AVCodecDescriptor **codecs;
     unsigned i, nb_codecs = get_codecs_sorted(&codecs);
 
-    printf("%s:\n"
+    av_log(NULL, AV_LOG_INFO, "%s:\n"
            " V..... = Video\n"
            " A..... = Audio\n"
            " S..... = Subtitle\n"
@@ -1573,18 +1573,18 @@ void print_codecs(int encoder)
         const AVCodec *codec = NULL;
 
         while ((codec = next_codec_for_id(desc->id, codec, encoder))) {
-            printf(" %c", get_media_type_char(desc->type));
-            printf((codec->capabilities & AV_CODEC_CAP_FRAME_THREADS) ? "F" : ".");
-            printf((codec->capabilities & AV_CODEC_CAP_SLICE_THREADS) ? "S" : ".");
-            printf((codec->capabilities & AV_CODEC_CAP_EXPERIMENTAL)  ? "X" : ".");
-            printf((codec->capabilities & AV_CODEC_CAP_DRAW_HORIZ_BAND)?"B" : ".");
-            printf((codec->capabilities & AV_CODEC_CAP_DR1)           ? "D" : ".");
+            av_log(NULL, AV_LOG_INFO, " %c", get_media_type_char(desc->type));
+            av_log(NULL, AV_LOG_INFO, (codec->capabilities & AV_CODEC_CAP_FRAME_THREADS) ? "F" : ".");
+            av_log(NULL, AV_LOG_INFO, (codec->capabilities & AV_CODEC_CAP_SLICE_THREADS) ? "S" : ".");
+            av_log(NULL, AV_LOG_INFO, (codec->capabilities & AV_CODEC_CAP_EXPERIMENTAL)  ? "X" : ".");
+            av_log(NULL, AV_LOG_INFO, (codec->capabilities & AV_CODEC_CAP_DRAW_HORIZ_BAND)?"B" : ".");
+            av_log(NULL, AV_LOG_INFO, (codec->capabilities & AV_CODEC_CAP_DR1)           ? "D" : ".");
 
-            printf(" %-20s %s", codec->name, codec->long_name ? codec->long_name : "");
+            av_log(NULL, AV_LOG_INFO, " %-20s %s", codec->name, codec->long_name ? codec->long_name : "");
             if (strcmp(codec->name, desc->name))
-                printf(" (codec %s)", desc->name);
+                av_log(NULL, AV_LOG_INFO, " (codec %s)", desc->name);
 
-            printf("\n");
+            av_log(NULL, AV_LOG_INFO, "\n");
         }
     }
     av_free(codecs);
