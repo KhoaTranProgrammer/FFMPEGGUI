@@ -4806,7 +4806,7 @@ int mymain(int argc, char **argv)
     /* parse options and open all input/output files */
     ret = ffmpeg_parse_options(argc, argv);
     if (ret < 0)
-        exit_program(1);
+        return -1;
 
 //    if (nb_output_files <= 0 && nb_input_files == 0) {
 //        show_usage();
