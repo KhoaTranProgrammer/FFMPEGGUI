@@ -4793,14 +4793,6 @@ int mymain(int argc, char **argv)
         argv++;
     }
 
-//    avcodec_register_all();
-#if CONFIG_AVDEVICE
-//    avdevice_register_all();
-#endif
-//    avfilter_register_all();
-//    av_register_all();
-//    avformat_network_init();
-
     show_banner(argc, argv, options);
 
     /* parse options and open all input/output files */
@@ -4815,34 +4807,32 @@ int mymain(int argc, char **argv)
     }
 
     /* file converter / grab */
-//    if (nb_output_files <= 0) {
-//        av_log(NULL, AV_LOG_FATAL, "At least one output file must be specified\n");
-//        exit_program(1);
-//    }
+    if (nb_output_files <= 0) {
+        av_log(NULL, AV_LOG_FATAL, "At least one output file must be specified\n");
+        return -1;
+    }
 
-//     if (nb_input_files == 0) {
-//         av_log(NULL, AV_LOG_FATAL, "At least one input file must be specified\n");
-//         exit_program(1);
-//     }
+    for (i = 0; i < nb_output_files; i++) {
+        if (strcmp(output_files[i]->ctx->oformat->name, "rtp"))
+            want_sdp = 0;
+    }
 
-//    for (i = 0; i < nb_output_files; i++) {
-//        if (strcmp(output_files[i]->ctx->oformat->name, "rtp"))
-//            want_sdp = 0;
-//    }
+    current_time = ti = getutime();
+    if (transcode() < 0)
+        return -1;
+    ti = getutime() - ti;
+    if (do_benchmark) {
+        av_log(NULL, AV_LOG_INFO, "bench: utime=%0.3fs\n", ti / 1000000.0);
+    }
 
-//    current_time = ti = getutime();
-//    if (transcode() < 0)
-//        exit_program(1);
-//    ti = getutime() - ti;
-//    if (do_benchmark) {
-//        av_log(NULL, AV_LOG_INFO, "bench: utime=%0.3fs\n", ti / 1000000.0);
-//    }
-//    av_log(NULL, AV_LOG_DEBUG, "%"PRIu64" frames successfully decoded, %"PRIu64" decoding errors\n",
-//           decode_error_stat[0], decode_error_stat[1]);
-//    if ((decode_error_stat[0] + decode_error_stat[1]) * max_error_rate < decode_error_stat[1])
-//        exit_program(69);
+    av_log(NULL, AV_LOG_DEBUG, "%"PRIu64" frames successfully decoded, %"PRIu64" decoding errors\n",
+           decode_error_stat[0], decode_error_stat[1]);
+    if ((decode_error_stat[0] + decode_error_stat[1]) * max_error_rate < decode_error_stat[1])
+        return -1;
 
-//    exit_program(received_nb_signals ? 255 : main_return_code);
+    //De-initialize
+    avformat_free_context(output_files[1]->ctx); //Need to update
+
     return main_return_code;
 }
 
