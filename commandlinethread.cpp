@@ -39,7 +39,9 @@ void CommandLineThread::run()
     *(margv + 0) = "ffmpeg";
     for(int i = 0; i < cmd_list.length(); i++){
         array = cmd_list.at(i).toLocal8Bit();
-        *(margv + 1 + i) = array.data();
+        char* option_str = (char*)malloc(sizeof(char) * array.size());
+        strcpy(option_str, array.data());
+        *(margv + 1 + i) = option_str;
     }
 
     mymain(margc, margv);
